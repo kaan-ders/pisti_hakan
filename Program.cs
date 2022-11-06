@@ -26,28 +26,34 @@ namespace Pisti
 
             //int[] deste = new int[52];
             ArrayList deste = new ArrayList();
+            string[] kartResimleri = { "Karo", "Kupa", "Sinek", "Maça" };
 
             Random random = new Random();
             int oyuncu1 = 0, oyuncu2 = 0;
 
-            for (int i = 0; i < 4; i++) //karo, maça, sinek, kupa
+            for (int i = 0; i < kartResimleri.Length; i++) //karo, maça, sinek, kupa
             {
                 for (int j = 0; j < 13; j++)
                 {
                     //deste[(i * 13) + j] = j + 1;
-                    deste.Add(j + 1);
+                    //deste.Add(j + 1);
+                    deste.Add(kartResimleri[i] + "|" + (j + 1));
                 }
+
+                //Big N
             }
 
             ArrayList yer = new ArrayList();
-            //for (int i = 0; i < 27; i++)
-            //{
-            while(deste.Count > 0)
+            for (int i = 0; i < 26; i++)
             {
+                //while(deste.Count > 0)
+                //{
                 int oyuncu1Numara = random.Next(0, deste.Count);
-                int oyuncu1Kart = Convert.ToInt32(deste[oyuncu1Numara]);
+                var oyuncu1Kart = deste[oyuncu1Numara].ToString().Split('|');
 
-                if (yer.Count > 0 && oyuncu1Kart == Convert.ToInt32(yer[yer.Count - 1]))
+                Console.WriteLine("Oyuncu1 " + oyuncu1Kart[0] + " " + oyuncu1Kart[1] + " attı");
+
+                if (yer.Count > 0 && Convert.ToUInt32(oyuncu1Kart[1]) == Convert.ToInt32(yer[yer.Count - 1]))
                 {
                     int toplam = 0;
                     foreach (var item in yer)
@@ -59,13 +65,16 @@ namespace Pisti
                     continue;
                 }
 
-                yer.Add(oyuncu1Kart);
+                yer.Add(oyuncu1Kart[1]);
                 deste.RemoveAt(oyuncu1Numara);
 
                 int oyuncu2Numara = random.Next(0, deste.Count);
-                int oyuncu2Kart = Convert.ToInt32(deste[oyuncu2Numara]);
+                //int oyuncu2Kart = Convert.ToInt32(deste[oyuncu2Numara]);
+                var oyuncu2Kart = deste[oyuncu2Numara].ToString().Split('|');
 
-                if (oyuncu2Kart == Convert.ToInt32(yer[yer.Count - 1]))
+                Console.WriteLine("Oyuncu1 " + oyuncu2Kart[0] + " " + oyuncu2Kart[1] + " attı");
+
+                if (Convert.ToInt32(oyuncu2Kart[1]) == Convert.ToInt32(yer[yer.Count - 1]))
                 {
                     int toplam = 0;
                     foreach (var item in yer)
@@ -75,7 +84,7 @@ namespace Pisti
                     yer.Clear();
                 }
 
-                yer.Add(oyuncu1Kart);
+                yer.Add(oyuncu1Kart[1]);
                 deste.RemoveAt(oyuncu2Numara);
             }
 
